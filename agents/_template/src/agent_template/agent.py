@@ -1,7 +1,8 @@
+import os
+
 from dotenv import load_dotenv
-from langchain_anthropic import ChatAnthropic
+from langchain.agents import create_agent
 from langchain_core.tools import tool
-from langgraph.prebuilt import create_react_agent
 
 load_dotenv()
 
@@ -13,8 +14,10 @@ def add(a: float, b: float) -> float:
 
 
 def build_agent():
-    model = ChatAnthropic(model="claude-sonnet-5")
-    return create_react_agent(model, tools=[add])
+    # LLM_MODEL selects both provider and model, e.g. "anthropic:claude-sonnet-5"
+    # or "openai:gpt-4o". Swapping vendors only requires changing this env var
+    # and installing the matching langchain-<provider> package - no code change.
+    return create_agent(os.environ["LLM_MODEL"], tools=[add])
 
 
 def run(message: str) -> str:

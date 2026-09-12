@@ -16,8 +16,8 @@ Then update `pyproject.toml` (`name`, `dependencies`) and the import in
 ```bash
 cd agents/<your-agent-name>
 python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-cp .env.example .env   # fill in ANTHROPIC_API_KEY
+pip install -e ".[dev,anthropic]"   # swap "anthropic" for "openai" / "google-genai", or add several
+cp .env.example .env                # set LLM_MODEL and the matching provider API key
 ```
 
 ## Run
@@ -34,10 +34,12 @@ pytest
 
 ## What's here
 
-- `src/agent_template/agent.py` — a minimal LangGraph ReAct agent (one tool,
-  one model call loop) using `langchain-anthropic`. Swap the model class
-  (e.g. `langchain-openai`, `langchain-google-genai`) if this agent needs a
-  different provider — LangChain's model interface is uniform.
+- `src/agent_template/agent.py` — a minimal tool-calling agent built with
+  LangChain's `create_agent(os.environ["LLM_MODEL"], tools=[...])` (the
+  `langgraph.prebuilt.create_react_agent` this replaces is now deprecated).
+  No vendor SDK is imported in code — switching providers is just changing
+  `LLM_MODEL` in `.env` and installing the matching extra (see
+  `pyproject.toml`).
 - `tests/` — pytest example.
 - Each agent owns its own `pyproject.toml` and virtualenv, since agents in
   this repo are independent and may need different dependency versions.
