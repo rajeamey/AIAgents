@@ -1,0 +1,7 @@
+# Convenience pin file for `pip install -r requirements.txt` in this agent's
+# isolated .venv. Mirrors the base + google-genai deps declared in
+# pyproject.toml (the canonical source of truth per repo convention).
+langchain>=1.0
+langchain-google-genai>=2.0
+python-dotenv>=1.0
+pytest>=8.0

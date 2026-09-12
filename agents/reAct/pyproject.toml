@@ -1,0 +1,26 @@
+[project]
+name = "react-agent"
+version = "0.1.0"
+description = "ReAct tool-calling agent, backed by the Gemini API"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=1.0",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+# Install whichever provider(s) this agent needs; LLM_MODEL in .env selects
+# which one is used at runtime via langchain's create_agent/init_chat_model.
+anthropic = ["langchain-anthropic>=0.3"]
+openai = ["langchain-openai>=0.2"]
+google-genai = ["langchain-google-genai>=2.0"]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
